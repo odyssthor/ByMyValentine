@@ -15,11 +15,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
   <!-- OPTIMIZACIÓN: Precarga de imágenes -->
-  <link rel="preload" as="image" href="https://media.tenor.com/eDRjmBrVxuMAAAAM/3-kotek.gif">
-  <link rel="preload" as="image" href="https://i.pinimg.com/280x280_RS/34/a0/24/34a024abcfe106dfb1475c58a8f14027.jpg">
-  <link rel="preload" as="image" href="https://media1.tenor.com/m/sVPaeSrkl6oAAAAd/cat-sad.gif">
-  <link rel="preload" as="image" href="https://media1.tenor.com/m/Zvw84yJDalwAAAAd/t%E1%BB%A9c-gi%E1%BA%ADn.gif">
-  <link rel="preload" as="image" href="https://media.tenor.com/LGXVwQg0cb0AAAAM/%EB%AA%A8%EC%B0%8C%EB%83%A5.gif">
+  <link rel="preload" as="image" href="https://media.tenor.com/bvXwJ4I19ZQAAAAj/cat-cat-meme.gif">
+  <link rel="preload" as="image" href="https://media1.tenor.com/m/UyrzwesbArIAAAAd/cat.gif">
+  <link rel="preload" as="image" href="https://media1.tenor.com/m/k2IZVN4cZOgAAAAC/cat.gif">
+  <link rel="preload" as="image" href="https://media1.tenor.com/m/jehoKrKQGHkAAAAC/angry-cat.gif">
+  <link rel="preload" as="image" href="https://media1.tenor.com/m/afz3dwa_LkwAAAAd/barbanne-canele.gif">
 
   
   <!-- Audios -->
@@ -130,8 +130,15 @@
     .container img {
       width: clamp(200px, 60vw, 280px);
       border-radius: 25px; margin-bottom: 25px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 25px rgba(10, 6, 6, 0.05);
       transition: transform 0.3s ease;
+    }
+    .container img.no-style {
+      width: clamp(200px, 60vw, 280px);
+      border-radius: 0;
+      margin-bottom: 0;
+      box-shadow: none;
+      transition: none;
     }
     .container img:hover { transform: scale(1.05); }
 
@@ -234,7 +241,12 @@
     <div class="container active" id="intro-container">
         <h1>¡Nena! Tengo un michi secreto que decirte 💌</h1>
         <p>Toca la pantalla</p>
-        <div class="tap-instruction">👆</div>
+        
+        <!-- <div class="tap-instruction">👆</div> -->
+
+        <div class="tap-instruction">
+          <img src="patita.png" alt="Patita" class="no-style">
+        </div>
     </div>
 
     <!-- PANTALLA 2: PREGUNTA -->
