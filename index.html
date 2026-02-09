@@ -169,15 +169,36 @@
     }
     /* GIF Final */
     #final-gif-container {
-        margin-top: 10px;
-        display: flex;
-        justify-content: center;
+      margin-top: 25px;
+
+      /* ✅ Centrado perfecto */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      position: relative;
+      width: 200px;
+      height: 200px;
+
+      margin-left: auto;
+      margin-right: auto;
     }
-    #final-gif {
-        max-width: 100%;
-        width: 180px; /* Tamaño controlado para el gif final */
-        border-radius: 15px;
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+
+    /* Ambos: gif y foto */
+    #final-gif-container img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+        box-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+
+        transition: opacity 1.5s ease-in-out;
+    }
+
+    /* Foto empieza oculta */
+    #final-photo {
+        opacity: 0;
     }
 
     .btn-container { display: flex; justify-content: center; gap: clamp(15px, 4vw, 25px); min-height: 70px; }
@@ -278,8 +299,15 @@
       
       <!-- GIF específico solicitado -->
       <div id="final-gif-container">
-          <img id="final-gif" src="https://media1.tenor.com/m/afz3dwa_LkwAAAAd/barbanne-canele.gif" alt="Gatos amorosos"> 
-      </div>
+        <img id="final-gif" 
+            src="https://media1.tenor.com/m/afz3dwa_LkwAAAAd/barbanne-canele.gif" 
+            alt="Gatos amorosos">
+
+        <!-- TU FOTO -->
+        <img id="final-photo" 
+            src="michis.jpeg" 
+            alt="Foto especial">
+    </div>
     </div>
 
   </main>
@@ -336,6 +364,24 @@
           // Activar contenedor final
           successContainer.classList.add('transparent-mode');
           successContainer.classList.add('active');
+
+          // 💞 Alternar GIF y FOTO con fade
+          const gif = document.getElementById("final-gif");
+          const photo = document.getElementById("final-photo");
+
+          let showingGif = true;
+
+          setInterval(() => {
+            if (showingGif) {
+              gif.style.opacity = "0";
+              photo.style.opacity = "1";
+            } else {
+              gif.style.opacity = "1";
+              photo.style.opacity = "0";
+            }
+
+            showingGif = !showingGif;
+          }, 4000); // cada 4 segundos
 
           // ACTIVAR EFECTOS VISUALES
           initVisualEffects();
