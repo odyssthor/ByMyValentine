@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>¿Quieres ser mi San Valentín? 💘</title>
+
+  <!-- Google Fonts: Poppins y Sour Gummy -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- OPTIMIZACIÓN: Precarga de imágenes -->
+  <link rel="preload" as="image" href="https://media.tenor.com/eDRjmBrVxuMAAAAM/3-kotek.gif">
+  <link rel="preload" as="image" href="https://i.pinimg.com/280x280_RS/34/a0/24/34a024abcfe106dfb1475c58a8f14027.jpg">
+  <link rel="preload" as="image" href="https://media1.tenor.com/m/sVPaeSrkl6oAAAAd/cat-sad.gif">
+  <link rel="preload" as="image" href="https://media1.tenor.com/m/Zvw84yJDalwAAAAd/t%E1%BB%A9c-gi%E1%BA%ADn.gif">
+  <link rel="preload" as="image" href="https://media.tenor.com/LGXVwQg0cb0AAAAM/%EB%AA%A8%EC%B0%8C%EB%83%A5.gif">
+
+  
+  <!-- Audios -->
+  <link rel ="preload" as="audio" href="https://www.dl.dropboxusercontent.com/scl/fi/gog6ebvy7twynfzhr5e1i/sound1.mp3?rlkey=pxjlc5q1fers0yojnjp00coht&st=bzbsq3xr">
+  <link rel ="preload" as="audio" href="https://www.dl.dropboxusercontent.com/scl/fi/r9lauxq74psnxc1cpsruk/sound2.mp3?rlkey=c1ptg60z6aa1lwn2jatla7udg&st=aksa83za">
+
+  <style>
+    :root {
+      /* TEMA ROSA SAN VALENTÍN */
+      --aurora-color-1: #ffdde1; 
+      --aurora-color-2: #ee9ca7; 
+      --aurora-color-3: #ffc3a0; 
+      --aurora-color-4: #ffffff; 
+      --aurora-color-5: #ffafbd;
+      
+      --container-bg-start: rgba(255, 255, 255, 0.9); 
+      --container-bg-end: rgba(255, 240, 245, 0.95);
+      --container-shadow: rgba(255, 105, 180, 0.2);
+      
+      --text-primary: #D63384; /* Rosa oscuro */
+      --text-secondary: #8E44AD; /* Morado suave */
+      
+      /* BOTONES (Diseño original conservado) */
+      --btn-yes-start: #ff69b4; --btn-yes-end: #e91e63; --btn-yes-shadow: #c2185b;
+      --btn-no-start: #95a5a6; --btn-no-end: #7f8c8d; --btn-no-shadow: #566566;
+      --glow-color: rgba(255, 105, 180, 0.7);
+    }
+
+    html { height: 100%; }
+    body {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Sour Gummy', cursive;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100%;
+      height: 100%;
+      text-align: center; 
+      overflow: hidden;
+      background: linear-gradient(-45deg, var(--aurora-color-1), var(--aurora-color-2), var(--aurora-color-3), var(--aurora-color-4), var(--aurora-color-5));
+      background-size: 400% 400%;
+      animation: auroraMovement 10s ease infinite;
+      transition: background 1s ease;
+      
+      /* BLOQUEO DE GESTOS */
+      -webkit-user-select: none; user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      position: fixed; width: 100%;
+    }
+
+    /* MODO FIESTA / NOCHE (Al aceptar) */
+    body.celebrate-mode {
+        background: #000 !important;
+        animation: none;
+    }
+
+    @keyframes auroraMovement {
+      0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+    }
+    
+    .main-wrapper {
+      display: grid;
+      place-items: center;
+      width: 90%;
+      max-width: 480px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .container {
+      background: linear-gradient(135deg, var(--container-bg-start), var(--container-bg-end));
+      padding: clamp(20px, 5vw, 35px) clamp(25px, 6vw, 45px);
+      border-radius: 30px;
+      box-shadow: 0 15px 40px var(--container-shadow);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      grid-column: 1 / -1;
+      grid-row: 1 / -1;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+      transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    }
+
+    .container.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    /* INTRO */
+    #intro-container { cursor: pointer; }
+    .tap-instruction { font-size: 3rem; animation: bounce 2s infinite; }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-20px);}
+      60% {transform: translateY(-10px);}
+    }
+
+    /* CONTENEDOR FINAL (Modo Transparente) */
+    #success-container.transparent-mode {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 30px rgba(255, 105, 180, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: white;
+        min-width: 280px;
+        max-width: 400px; /* Límite de ancho para que el texto no se estire demasiado */
+    }
+
+    .container img {
+      width: clamp(200px, 60vw, 280px);
+      border-radius: 25px; margin-bottom: 25px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+    .container img:hover { transform: scale(1.05); }
+
+    h1 { font-size: clamp(1.8em, 5vw, 2.2em); font-weight: 700; color: var(--text-primary); margin-bottom: 15px; }
+    p { font-size: clamp(1.1em, 4vw, 1.3em); color: var(--text-secondary); margin-bottom: 35px; }
+
+/* ESTILOS DEL TEXTO FINAL EN MODO NOCHE */
+    #success-container.transparent-mode #typing-text {
+        color: #ffffff;
+        text-shadow: 0 2px 10px rgba(255, 105, 180, 0.9);
+        font-size: clamp(1.4em, 5vw, 1.8em);
+        min-height: 1.5em;
+        margin-bottom: 15px;
+    }
+    
+    #success-container.transparent-mode #love-message {
+        color: #f0f0f0;
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
+        font-size: clamp(0.9em, 3.5vw, 1.1em); 
+        line-height: 1.5;
+        margin-bottom: 20px;
+        
+        /* --- CAMBIO AQUÍ --- */
+        opacity: 1; /* Antes estaba en 0 */
+        /* ------------------- */
+        
+        transition: opacity 1s ease;
+    }
+    /* GIF Final */
+    #final-gif-container {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    #final-gif {
+        max-width: 100%;
+        width: 180px; /* Tamaño controlado para el gif final */
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-container { display: flex; justify-content: center; gap: clamp(15px, 4vw, 25px); min-height: 70px; }
+
+    .btn {
+      padding: 16px clamp(25px, 6vw, 40px);
+      text-decoration: none; color: white; border-radius: 50px;
+      font-weight: 700; font-size: clamp(1em, 4vw, 1.2em);
+      border: none; cursor: pointer; position: relative;
+      transition: transform 0.2s;
+      transform: scale(1); font-family: 'Poppins', sans-serif;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .btn:active { transform: translateY(2px) scale(0.98); }
+
+    #btn-si {
+      background: linear-gradient(145deg, var(--btn-yes-start), var(--btn-yes-end));
+      box-shadow: 0 6px 0 var(--btn-yes-shadow), 0 8px 15px rgba(0,0,0,0.2);
+    }
+
+    #btn-no {
+      background: linear-gradient(145deg, var(--btn-no-start), var(--btn-no-end));
+      box-shadow: 0 6px 0 var(--btn-no-shadow), 0 8px 15px rgba(0,0,0,0.2);
+    }
+    
+    #btn-si.btn-pulse::after {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        border-radius: 50px; background-color: var(--glow-color); z-index: -1;
+        animation: pulseGlow 1.5s infinite;
+    }
+    
+    @keyframes pulseGlow {
+      0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1); opacity: 0.5; }
+    }
+
+    /* CANVAS DE FUEGOS ARTIFICIALES Y ESTRELLAS */
+    canvas {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none; 
+    }
+    
+    #starCanvas { z-index: 0; display: none; }
+    #fireworksCanvas { z-index: 1; display: none; }
+
+  </style>
+</head>
+<body>
+  
+  <!-- AUDIOS -->
+  <audio id="sound1" src="https://www.dl.dropboxusercontent.com/scl/fi/gog6ebvy7twynfzhr5e1i/sound1.mp3?rlkey=pxjlc5q1fers0yojnjp00coht&st=bzbsq3xr" loop></audio>
+  <audio id="sound2" src="https://www.dl.dropboxusercontent.com/scl/fi/r9lauxq74psnxc1cpsruk/sound2.mp3?rlkey=c1ptg60z6aa1lwn2jatla7udg&st=aksa83za" loop></audio>
+
+  <!-- CANVAS LAYERS -->
+  <canvas id="starCanvas"></canvas>
+  <canvas id="fireworksCanvas"></canvas>
+
+  <main class="main-wrapper">
+    
+    <!-- PANTALLA 1: INICIO -->
+    <div class="container active" id="intro-container">
+        <h1>¡Hola! Tengo algo que decirte 💌</h1>
+        <p>Toca la pantalla</p>
+        <div class="tap-instruction">👆</div>
+    </div>
+
+    <!-- PANTALLA 2: PREGUNTA -->
+    <div class="container" id="proposal-container">
+      <img id="image" src="https://media.tenor.com/eDRjmBrVxuMAAAAM/3-kotek.gif" alt="Gato saltando">
+      <h1 id="main-title">¿Quieres ser mi San Valentín? 🥺👉👈</h1>
+      <p id="main-text">Prometo hacerte muy feliz ❤️</p>
+      <div class="btn-container">
+        <button class="btn" id="btn-si">Sí 🥰</button>
+        <button class="btn" id="btn-no">No 🙄</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA 3: FINAL -->
+    <div class="container" id="success-container">
+      <!-- Título con efecto de tipeo -->
+      <h2 id="typing-text"></h2>
+      
+      <!-- Mensaje de amor (letra pequeña) -->
+      <p id="love-message">
+        Gracias por llenar mis días de alegría y hacer que mi corazón lata más fuerte. No hay nadie en el mundo con quien prefiera estar más que contigo. ¡Te quiero muchísimo! ✨❤️
+      </p>
+      
+      <!-- GIF específico solicitado -->
+      <div id="final-gif-container">
+          <img id="final-gif" src="https://media.tenor.com/LGXVwQg0cb0AAAAM/%EB%AA%A8%EC%B0%8C%EB%83%A5.gif" alt="Gatos amorosos"> 
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /* ==========================================
+       LÓGICA DEL SITIO
+       ========================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      const introContainer = document.getElementById('intro-container');
+      const proposalContainer = document.getElementById('proposal-container');
+      const successContainer = document.getElementById('success-container');
+      const btnSi = document.getElementById('btn-si');
+      const btnNo = document.getElementById('btn-no');
+      const mainTitle = document.getElementById('main-title');
+      const mainText = document.getElementById('main-text');
+      const image = document.getElementById('image');
+      const loveMessage = document.getElementById('love-message');
+      
+      const sound1 = document.getElementById('sound1');
+      const sound2 = document.getElementById('sound2');
+
+      let noClickCount = 0;
+      let siButtonScale = 1;
+      let noButtonScale = 1;
+      let chaseStarted = false;
+
+      // 1. INICIO
+      introContainer.addEventListener('click', () => {
+        introContainer.classList.remove('active');
+        sound1.play().catch(e => console.log("Audio play failed", e));
+        setTimeout(() => { proposalContainer.classList.add('active'); }, 300);
+      });
+
+      // Respuestas botón No
+      const noResponses = [
+        { title: "¿Estás segura? 💔", text: "No seas asi :c", img: "https://i.pinimg.com/280x280_RS/34/a0/24/34a024abcfe106dfb1475c58a8f14027.jpg" },
+        { title: "¡No me hagas esto! 😭", text: "Te compraré flores...", img: "https://media1.tenor.com/m/sVPaeSrkl6oAAAAd/cat-sad.gif" },
+        { title: "¡No me dejas opcion! 😈", text: "", img: "https://media1.tenor.com/m/Zvw84yJDalwAAAAd/t%E1%BB%A9c-gi%E1%BA%ADn.gif" }
+      ];
+      
+      // 2. LÓGICA BOTÓN SÍ
+      btnSi.addEventListener('click', () => {
+        proposalContainer.classList.remove('active');
+        
+        setTimeout(() => {
+          // Cambiar audio
+          sound1.pause(); sound1.currentTime = 0;
+          sound2.play();
+
+          // Cambiar fondo a negro
+          document.body.classList.add('celebrate-mode');
+          
+          // Activar contenedor final
+          successContainer.classList.add('transparent-mode');
+          successContainer.classList.add('active');
+
+          // ACTIVAR EFECTOS VISUALES
+          initVisualEffects();
+
+          // INICIAR MAQUINA DE ESCRIBIR
+          typeWriter("Para mi San Valentín... ❤️", "typing-text", () => {
+             // Callback: Mostrar mensaje de amor después de tipear el título
+             loveMessage.style.opacity = '1';
+          });
+
+        }, 150);
+      });
+
+      // 3. LÓGICA BOTÓN NO (Huir)
+      btnNo.addEventListener('click', () => {
+        noClickCount++;
+        if (noClickCount <= 3) {
+          const response = noResponses[noClickCount - 1];
+          if(response) {
+            mainTitle.innerText = response.title;
+            mainText.innerText = response.text;
+            image.src = response.img;
+          }
+        }
+        
+        if (noClickCount >= 3) {
+          if (!chaseStarted) {
+            btnNo.style.position = 'absolute';
+            chaseStarted = true;
+          }
+          siButtonScale += 0.5;
+          btnSi.style.transform = `scale(${siButtonScale})`;
+          btnSi.classList.add('btn-pulse');
+          noButtonScale *= 0.8;
+          btnNo.style.transform = `scale(${noButtonScale})`;
+          moveButtonRandomly();
+        }
+      });
+
+      function moveButtonRandomly() {
+        const maxLeft = proposalContainer.clientWidth - btnNo.offsetWidth;
+        const maxTop = proposalContainer.clientHeight - btnNo.offsetHeight;
+        const newLeft = Math.random() * maxLeft;
+        const newTop = Math.random() * maxTop;
+        btnNo.style.left = `${newLeft}px`;
+        btnNo.style.top = `${newTop}px`;
+      }
+    });
+
+    // FUNCION DE TIPEO CON CALLBACK
+    function typeWriter(text, elementId, callback) {
+        const element = document.getElementById(elementId);
+        element.innerHTML = "";
+        let i = 0;
+        const speed = 100; // Velocidad de tipeo
+        
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else if (callback) {
+                setTimeout(callback, 500); // Pequeña pausa antes del callback
+            }
+        }
+        type();
+    }
+
+    /* ==========================================
+       LÓGICA GRÁFICA (FUEGOS + ESTRELLAS)
+       ========================================== */
+    function initVisualEffects() {
+        const starCanvas = document.getElementById("starCanvas");
+        const fireCanvas = document.getElementById("fireworksCanvas");
+        
+        starCanvas.style.display = 'block';
+        fireCanvas.style.display = 'block';
+        
+        initStars(starCanvas);
+        initFireworks(fireCanvas);
+        
+        window.addEventListener('mousedown', (e) => handleInteraction(e, fireCanvas));
+        window.addEventListener('touchstart', (e) => handleInteraction(e, fireCanvas), { passive: false });
+    }
+
+    // --- ESTRELLAS ---
+    function initStars(canvas) {
+        const ctx = canvas.getContext('2d');
+        let w, h, stars = [];
+        const numStars = 400;
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.size = Math.random() * 2 + 0.5; 
+                this.twinkleSpeed = Math.random() * 0.03 + 0.01; 
+                this.phase = Math.random() * Math.PI * 2; 
+            }
+            draw() {
+                this.phase += this.twinkleSpeed;
+                const opacity = (Math.sin(this.phase) + 1) / 2;
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.9 + 0.1})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < numStars; i++) stars.push(new Star());
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            stars.forEach(s => s.draw());
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }
+
+    // --- FUEGOS ARTIFICIALES (LENTOS) ---
+    let explodeHeartFunc; 
+
+    function initFireworks(canvas) {
+        const ctx = canvas.getContext("2d");
+        let w, h, particles = [];
+        const isMobile = window.innerWidth < 768;
+        
+        const cfg = {
+            autoLaunchChance: 0.03,
+            particlesPerHeart: isMobile ? 65 : 90, 
+            
+            // VELOCIDAD REDUCIDA A LA MITAD:
+            // Gravedad reducida (Antes 0.012/0.025 -> Ahora 0.006/0.012)
+            gravity: isMobile ? 0.006 : 0.012,   
+            drag: 0.98, // Un poco más de resistencia para suavizar      
+            fade: 0.003, // Desvanecimiento más lento para que duren más      
+            baseSize: isMobile ? 2 : 3
+        };
+        const colors = ["#ff006e", "#ff4d6d", "#8338ec", "#ff0000", "#ffffff"];
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, vx, vy, color) {
+                this.x = x; this.y = y;
+                this.vx = vx; this.vy = vy;
+                this.color = color;
+                this.alpha = 1;
+                this.size = Math.random() * cfg.baseSize + 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += cfg.gravity; 
+                this.vx *= cfg.drag;    
+                this.vy *= cfg.drag;
+                this.alpha -= cfg.fade;
+                return this.alpha > 0;
+            }
+            draw(c) {
+                c.globalAlpha = Math.max(0, this.alpha);
+                c.fillStyle = this.color;
+                c.beginPath();
+                c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                c.fill();
+            }
+        }
+
+        explodeHeartFunc = function(x, y) {
+            const startX = x || Math.random() * (w * 0.8) + (w * 0.1);
+            const startY = y || Math.random() * (h * 0.5) + (h * 0.1); 
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const count = cfg.particlesPerHeart;
+            
+            // EXPANSIÓN REDUCIDA A LA MITAD (Antes 2.5/4 -> Ahora 1.25/2.0)
+            const expansion = isMobile ? 1.25 : 2.0; 
+
+            for (let i = 0; i < count; i++) {
+                const t = (Math.PI * 2 * i) / count;
+                const xx = 16 * Math.pow(Math.sin(t), 3);
+                const yy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                particles.push(new Particle(startX, startY, (xx/10)*expansion, (yy/10)*expansion, color));
+            }
+        }
+
+        function loop() {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; 
+            ctx.fillRect(0, 0, w, h);
+            ctx.globalCompositeOperation = 'lighter';
+
+            if (particles.length < 800 && Math.random() < cfg.autoLaunchChance) {
+                explodeHeartFunc();
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                if (!p.update()) particles.splice(i, 1);
+                else p.draw(ctx);
+            }
+            requestAnimationFrame(loop);
+        }
+        loop();
+    }
+
+    function handleInteraction(e, canvas) {
+        if(e.cancelable && e.target === canvas) e.preventDefault();
+        
+        let cx, cy;
+        if (e.changedTouches) {
+            cx = e.changedTouches[0].clientX;
+            cy = e.changedTouches[0].clientY;
+        } else {
+            cx = e.clientX;
+            cy = e.clientY;
+        }
+        if (explodeHeartFunc) explodeHeartFunc(cx, cy);
+    }
+  </script>
+</body>
+</html>
